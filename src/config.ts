@@ -1,4 +1,3 @@
-// Данные матчей — файл data/matches.json из этого репозитория, отданный по HTTP.
-// Адрес менять не нужно.
+// Публичный JSON из репозитория с решением тестового задания.
 export const MATCHES_URL =
-  'https://raw.githubusercontent.com/OWNER/REPO/main/data/matches.json';
+  'https://raw.githubusercontent.com/EjinD/test-internetlab/main/data/matches.json';
