@@ -260,26 +260,30 @@ export function MatchesScreen() {
               </Pressable>
             </View>
           )}
-          <FlatList
-            data={visibleMatches}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <MatchCard
-                match={item}
-                favorite={isFavorite(item.id)}
-                onToggleFavorite={() => toggle(item.id)}
-              />
-            )}
-            contentContainerStyle={visibleMatches.length === 0 ? styles.emptyList : styles.list}
-            ListEmptyComponent={(
+          {visibleMatches.length === 0 ? (
+            <View style={styles.emptyList}>
               <Text style={styles.emptyText}>
                 {matches.length === 0 ? 'Матчей пока нет.' : 'В этой категории матчей нет.'}
               </Text>
-            )}
-            refreshControl={(
-              <RefreshControl refreshing={refreshing} onRefresh={() => void loadMatches(true)} />
-            )}
-          />
+            </View>
+          ) : (
+            <FlatList
+              style={styles.list}
+              data={visibleMatches}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }: { item: Match }) => (
+                <MatchCard
+                  match={item}
+                  favorite={isFavorite(item.id)}
+                  onToggleFavorite={() => toggle(item.id)}
+                />
+              )}
+              ListFooterComponent={<View style={styles.listFooter} />}
+              refreshControl={(
+                <RefreshControl refreshing={refreshing} onRefresh={() => void loadMatches(true)} />
+              )}
+            />
+          )}
         </>
       )}
     </View>
@@ -302,8 +306,9 @@ const styles = StyleSheet.create({
   activeFilter: { backgroundColor: '#2563eb' },
   filterText: { color: '#374151', fontWeight: '600', fontSize: 13 },
   activeFilterText: { color: '#fff' },
-  list: { paddingBottom: 24 },
-  emptyList: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
+  list: { flex: 1 },
+  listFooter: { height: 24 },
+  emptyList: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
   emptyText: { textAlign: 'center', color: '#64748b', fontSize: 15 },
   card: { padding: 16, marginBottom: 12, borderRadius: 16, backgroundColor: '#fff', borderWidth: 1, borderColor: '#e5e7eb', shadowColor: '#0f172a', shadowOpacity: 0.04, shadowRadius: 8, elevation: 1 },
   cardTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
